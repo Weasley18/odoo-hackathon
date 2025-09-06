@@ -75,10 +75,42 @@ docker-compose up
 6. Get a code review
 7. Merge to `develop`
 
+## How to test auth locally
+
+1. Start the application with Docker Compose
+```bash
+docker-compose up
+```
+
+2. Access the application
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8000
+   - API Documentation: http://localhost:8000/docs
+
+3. Create a new account
+   - Navigate to http://localhost:3000/signup
+   - Fill in your email, password (must be at least 8 characters with 1 uppercase and 1 number), and optional username
+   - Click "Sign Up"
+
+4. Log in with your account
+   - Navigate to http://localhost:3000/login
+   - Enter your email and password
+   - Click "Sign In"
+
+5. View and edit your profile
+   - After login, you'll be redirected to the dashboard
+   - Your profile information will be displayed at the top
+   - Click "Edit Profile" to update your username
+
+6. Test API endpoints directly
+   - Use the Swagger UI at http://localhost:8000/docs
+   - Test `/api/auth/signup`, `/api/auth/login`, and `/api/auth/me` endpoints
+   - For protected endpoints, use the "Authorize" button with your token
+
 ## Next Steps
 
 ### Immediate Tasks
-1. Implement user authentication
+1. ✅ Implement user authentication
 2. Create product CRUD operations
 3. Set up image upload to S3/cloud storage
 4. Implement search and filtering
