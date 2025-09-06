@@ -2,6 +2,13 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Any, Optional
 import os
+from .database import engine
+from .models import Base
+from .products import router as products_router
+from .cart_orders import router as cart_orders_router
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="EcoFinds API",
@@ -18,24 +25,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include routers
+app.include_router(products_router)
+app.include_router(cart_orders_router)
+
 @app.get("/health")
 def health_check():
     """Check if the API is running."""
     return {"status": "ok"}
-
-@app.get("/api/products")
-def get_products():
-    """
-    Get a list of products.
-    
-    TODO: 
-    - Implement database connection
-    - Add filtering, pagination
-    - Add sorting options
-    """
-    # Placeholder for database query
-    products = []
-    return products
 
 @app.post("/api/auth/signup")
 def signup(user_data: dict):
@@ -56,14 +53,3 @@ def signup(user_data: dict):
         "created_at": "2023-05-28T12:00:00Z",
     }
     return user
-
-# TODO: Add more endpoints:
-# - POST /api/auth/login
-# - GET /api/products/{product_id}
-# - POST /api/products
-# - GET /api/users/me
-# - GET /api/users/me/products
-# - POST /api/cart
-# - GET /api/cart
-# - POST /api/orders
-# - GET /api/orders
